@@ -1,7 +1,7 @@
 local util = require("util")
 
-util.forEachFluidInSupportedMods(function(_mod, resoure)
+util.forEachResourceInSupportedMods(function(_mod, resoure)
   data:extend({
-    util.createFiniteFluidSetting(resoure)
+    util.createFiniteResourceSetting(resoure)
   })
 end)

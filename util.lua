@@ -7,7 +7,7 @@ local modResources = {
   ["space-age"] = {"fluorine-vent", "sulfuric-acid-geyser"}
 }
 
-local resourceToFluids = {
+local resourceFluids = {
   ["crude-oil"] = "crude-oil",
   ["fluorine-vent"] = "fluorine",
   ["sulfuric-acid-geyser"] = "sulfuric-acid"
@@ -17,7 +17,7 @@ local settingName = function(internalName)
   return modPrefix .. internalName
 end
 
-util.forEachFluidInSupportedMods = function(func)
+util.forEachResourceInSupportedMods = function(func)
   for mod, resources in pairs(modResources) do
     if mods[mod] then
       for _, resource in ipairs(resources) do
@@ -31,7 +31,7 @@ util.isResourceFinite = function(internalName)
   return settings["startup"][settingName(internalName)].value
 end
 
-util.createFiniteFluidSetting = function(internalName)
+util.createFiniteResourceSetting = function(internalName)
   return {
     type = "bool-setting",
     name = settingName(internalName),
@@ -55,7 +55,7 @@ util.makeResourceFinite = function(internalName)
     results = {
       {
           type = "fluid",
-          name = resourceToFluids[internalName],
+          name = resourceFluids[internalName],
           amount_min = 5,
           amount_max = 5,
           probability = 1
