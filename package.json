@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "typed-factorio": "^3.5.1",
+    "typescript-to-lua": "^1.28.1"
+  },
+  "scripts": {
+    "build": "tstl"
+  }
+}

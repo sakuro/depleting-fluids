@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "types": [ "typed-factorio/settings", "typed-factorio/prototype", "typed-factorio/runtime" ],
+    "target": "ESNext",
+    "module": "commonjs",
+    "outDir": ".",
+    "rootDir": "src",
+    "strict": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "tstl": {
+    "luaTarget": "5.1",
+    "noImplicitSelf": true
+  }
+}
