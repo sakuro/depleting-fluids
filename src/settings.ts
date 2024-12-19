@@ -1,7 +1,15 @@
-import { createFiniteResourceSetting, forEachResourceInSupportedMods } from "./util";
+import { settingName, supportedResources } from "./util";
 
-forEachResourceInSupportedMods((_mod, resoure) => {
+for (const [_mod, resource] of supportedResources()) {
   data.extend([
-    createFiniteResourceSetting(resoure)
+    {
+      type: "bool-setting",
+      name: settingName(resource),
+      setting_type: "startup",
+      default_value: true,
+      order: "c",
+      localised_name: [`mod-settings-name.${settingName(resource)}`],
+      localised_description: [`mod-settings-description.${settingName(resource)}`]
+    }
   ])
-});
+};
