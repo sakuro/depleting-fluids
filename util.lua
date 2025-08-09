@@ -54,11 +54,11 @@ util.makeResourceFinite = function(internalName)
     mining_time = 0.275,
     results = {
       {
-          type = "fluid",
-          name = resourceFluids[internalName],
-          amount_min = 5,
-          amount_max = 5,
-          probability = 1
+        type = "fluid",
+        name = resourceFluids[internalName],
+        amount_min = 5,
+        amount_max = 5,
+        probability = 1
       }
     }
   }
