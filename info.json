@@ -8,6 +8,7 @@
   "dependencies": [
     "base >= 2.0",
     "? space-age >= 2.0",
+    "? James-Oil-Processing >= 2.0.0",
     "! Krastorio2",
     "! finite-oil"
   ]
