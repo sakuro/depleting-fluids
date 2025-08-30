@@ -5,14 +5,17 @@ local modPrefix = "depleting-fluids-finite-"
 local modResources = {
   ["base"] = {"crude-oil"},
   ["space-age"] = {"fluorine-vent", "sulfuric-acid-geyser"},
-  ["James-Oil-Processing"] = {"adamo-carbon-natural-gas"}
+  ["James-Oil-Processing"] = {"adamo-carbon-natural-gas"},
+  ["bobores"] = {"ground-water", "lithia-water"}
 }
 
 local resourceFluids = {
   ["crude-oil"] = "crude-oil",
   ["fluorine-vent"] = "fluorine",
   ["sulfuric-acid-geyser"] = "sulfuric-acid",
-  ["adamo-carbon-natural-gas"] = "adamo-carbon-natural-gas"
+  ["adamo-carbon-natural-gas"] = "adamo-carbon-natural-gas",
+  ["ground-water"] = "water",
+  ["lithia-water"] = "lithia-water"
 }
 
 local settingName = function(internalName)
