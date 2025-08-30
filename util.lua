@@ -49,6 +49,11 @@ util.createFiniteResourceSetting = function(internalName)
 end
 
 util.makeResourceFinite = function(internalName)
+  -- Some resources may be disabled by their mod's settings
+  if not data.raw.resource[internalName] then
+    return
+  end
+
   -- data.raw["mining-drill"]["pumpjack"].mining_speed = 2
 
   data.raw.resource[internalName].infinite = false
