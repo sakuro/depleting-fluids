@@ -1,7 +1,7 @@
 local util = require("util")
 
-util.forEachResourceInSupportedMods(function(_mod, resoure)
+util.forEachResourceInSupportedMods(function(_mod, resource)
   data:extend({
-    util.createFiniteResourceSetting(resoure)
+    util.createFiniteResourceSetting(resource)
   })
 end)
