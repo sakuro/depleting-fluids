@@ -5,14 +5,17 @@ local modPrefix = "depleting-fluids-finite-"
 local modResources = {
   ["base"] = {"crude-oil"},
   ["space-age"] = {"fluorine-vent", "sulfuric-acid-geyser"},
-  ["James-Oil-Processing"] = {"adamo-carbon-natural-gas"}
+  ["James-Oil-Processing"] = {"adamo-carbon-natural-gas"},
+  ["bobores"] = {"bob-ground-water", "bob-lithia-water"}
 }
 
 local resourceFluids = {
   ["crude-oil"] = "crude-oil",
   ["fluorine-vent"] = "fluorine",
   ["sulfuric-acid-geyser"] = "sulfuric-acid",
-  ["adamo-carbon-natural-gas"] = "adamo-carbon-natural-gas"
+  ["adamo-carbon-natural-gas"] = "adamo-carbon-natural-gas",
+  ["bob-ground-water"] = "water",
+  ["bob-lithia-water"] = "bob-lithia-water"
 }
 
 local settingName = function(internalName)
@@ -46,6 +49,11 @@ util.createFiniteResourceSetting = function(internalName)
 end
 
 util.makeResourceFinite = function(internalName)
+  -- Some resources may be disabled by their mod's settings
+  if not data.raw.resource[internalName] then
+    return
+  end
+
   -- data.raw["mining-drill"]["pumpjack"].mining_speed = 2
 
   data.raw.resource[internalName].infinite = false
