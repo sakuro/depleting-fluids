@@ -64,7 +64,7 @@ jobs:
         echo "EOF" >> $GITHUB_OUTPUT
 
     - name: Upload MOD to Factorio MOD portal
-      uses: ./.github/actions/upload
+      uses: ./.github/actions/upload-to-mod-portal
       with:
         mod_name: ${{ env.MOD_NAME }}
         mod_version: ${{ steps.version.outputs.version }}
