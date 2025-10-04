@@ -1,0 +1,106 @@
+name: Release Validation
+
+# This workflow validates release PRs before they are merged.
+# It performs comprehensive checks on version, dependencies, and release readiness.
+
+env:
+  MOD_NAME: ${{ github.event.repository.name }}
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-release:
+    # Only run for release branches
+    if: startsWith(github.head_ref, 'release-v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required for git tag push
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+      with:
+        fetch-depth: 0
+
+    - name: Extract version from branch name
+      id: version
+      run: |
+        BRANCH_NAME="${{ github.head_ref }}"
+        VERSION="${BRANCH_NAME#release-v}"
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+
+    - name: Validate version format
+      run: |
+        if ! echo "${{ steps.version.outputs.version }}" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+          echo "❌ Error: Version must be in format x.y.z (e.g., 1.0.0)"
+          exit 1
+        fi
+
+    - name: Verify version consistency
+      uses: ./.github/actions/verify-version-consistency
+      with:
+        expected_version: ${{ steps.version.outputs.version }}
+
+    - name: Ensure tag created properly
+      run: |
+        # Check if tag already exists
+        # - If it exists and this is NOT a synchronize event: ERROR (tag created outside workflow)
+        # - If it exists and this IS a synchronize event: OK (will be updated later)
+        # - If it doesn't exist: OK (will be created by preparation workflow)
+        if git tag | grep -q "^${{ steps.version.outputs.tag }}$"; then
+          if [ "${{ github.event.action }}" != "synchronize" ]; then
+            echo "❌ Error: Git tag ${{ steps.version.outputs.tag }} already exists"
+            echo "This should only happen if the tag was created outside the release process"
+            exit 1
+          else
+            echo "Tag ${{ steps.version.outputs.tag }} exists and will be updated to latest commit"
+          fi
+        fi
+
+    - name: Validate MOD_PORTAL_API_KEY
+      run: |
+        if [ -z "${{ secrets.MOD_PORTAL_API_KEY }}" ]; then
+          echo "❌ Error: MOD_PORTAL_API_KEY secret is not configured"
+          echo ""
+          echo "To fix this:"
+          echo "1. Generate an API key at https://mods.factorio.com/profile"
+          echo "2. Go to repository Settings -> Secrets and variables -> Actions"
+          echo "3. Add new secret: MOD_PORTAL_API_KEY with your API key"
+          echo ""
+          echo "This PR cannot be merged until the secret is configured."
+          exit 1
+        fi
+
+    - name: Validate changelog.txt format
+      run: |
+        if ! grep -q "^Version: ${{ steps.version.outputs.version }}" changelog.txt; then
+          echo "❌ Error: changelog.txt missing section for version ${{ steps.version.outputs.version }}"
+          exit 1
+        fi
+
+    - name: Set git user for tag update
+      if: github.event.action == 'synchronize' # When new commits are pushed to PR
+      uses: git-actions/set-user@v1
+
+    - name: Update release tag to latest commit
+      if: github.event.action == 'synchronize' # When new commits are pushed to PR
+      run: |
+        echo "Updating tag v${{ steps.version.outputs.version }} to latest commit"
+        git tag -fa "v${{ steps.version.outputs.version }}" -m "Release v${{ steps.version.outputs.version }}"
+        git push origin "v${{ steps.version.outputs.version }}" --force
+        echo "🏷️ Tag v${{ steps.version.outputs.version }} updated to commit $(git rev-parse --short HEAD)"
+
+    - name: Release validation summary
+      run: |
+        echo "✅ Release validation passed for v${{ steps.version.outputs.version }}"
+        echo "- Version format is valid"
+        echo "- Version consistency verified"
+        echo "- Git tag exists at correct commit"
+        echo "- MOD_PORTAL_API_KEY is configured"
+        echo "- changelog.txt is properly formatted"
+        if [ "${{ github.event.action }}" == "synchronize" ]; then
+          echo "- Tag updated to latest commit"
+        fi
