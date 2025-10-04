@@ -6,7 +6,7 @@ local modResources = {
   ["base"] = {"crude-oil"},
   ["space-age"] = {"fluorine-vent", "sulfuric-acid-geyser"},
   ["James-Oil-Processing"] = {"adamo-carbon-natural-gas"},
-  ["bobores"] = {"ground-water", "lithia-water"}
+  ["bobores"] = {"bob-ground-water", "bob-lithia-water"}
 }
 
 local resourceFluids = {
@@ -14,8 +14,8 @@ local resourceFluids = {
   ["fluorine-vent"] = "fluorine",
   ["sulfuric-acid-geyser"] = "sulfuric-acid",
   ["adamo-carbon-natural-gas"] = "adamo-carbon-natural-gas",
-  ["ground-water"] = "water",
-  ["lithia-water"] = "lithia-water"
+  ["bob-ground-water"] = "water",
+  ["bob-lithia-water"] = "bob-lithia-water"
 }
 
 local settingName = function(internalName)
