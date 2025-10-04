@@ -5,7 +5,13 @@
 ## Summary
 
 This MOD makes some infinite fluid resouces finite.
-Supports Factorio 2.0+ (Crude oil) and Space Age (Sulfuric acid geyser and fluorine vent) for now.
+
+### Supported resources
+
+- Factorio 2.0+ (Crude oil)
+- Space Age (Sulfuric acid geyser and fluorine vent)
+- [James Oily Extravaganza](https://mods.factorio.com/mod/James-Oil-Processing) (Natural gas)
+- [Bob's Ores](https://mods.factorio.com/mod/bobores) (Ground water and Lithia water)
 
 ## Warning
 
