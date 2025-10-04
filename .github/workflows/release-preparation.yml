@@ -1,0 +1,69 @@
+name: Release Preparation
+
+# This workflow only handles file updates for release preparation.
+# All validations are performed by the Release Validation workflow on PR creation.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., 1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  create-release-branch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write      # Required for git push (branch and tag creation)
+      pull-requests: write # Required for PR creation
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+      with:
+        fetch-depth: 0
+
+    - name: Set git user
+      uses: git-actions/set-user@v1
+
+    - name: Create release branch
+      run: |
+        git checkout -b release-v${{ github.event.inputs.version }}
+
+    - name: Update version in info.json
+      run: |
+        (rm info.json && jq '.version = "${{ github.event.inputs.version }}"' > info.json) < info.json
+
+    - name: Prepare new changelog section for the target version
+      run: |
+        RELEASE_DATE="$(date -u +%Y-%m-%d)"
+        (rm changelog.txt && cat > changelog.txt <<EOF && cat >> changelog.txt) < changelog.txt
+        ---------------------------------------------------------------------------------------------------
+        Version: ${{ github.event.inputs.version }}
+        Date: $RELEASE_DATE
+          Changes:
+            -
+        EOF
+
+    - name: Commit changes
+      run: |
+        git add info.json changelog.txt
+        git commit -m ":bookmark: Prepare release v${{ github.event.inputs.version }}"
+
+    - name: Create release tag
+      run: |
+        git tag -a "v${{ github.event.inputs.version }}" -m "Release v${{ github.event.inputs.version }}"
+
+    - name: Push release branch and tag
+      run: |
+        git push -u origin release-v${{ github.event.inputs.version }}
+        git push origin v${{ github.event.inputs.version }}
+
+    - name: Create Pull Request
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh pr create \
+          --title ":bookmark: Release v${{ github.event.inputs.version }}" \
+          --body "This PR was automatically created by [GitHub Actions](https://github.com/${{ github.repository }}/actions/workflows/release-preparation.yml)."
