@@ -9,10 +9,12 @@ runs:
   using: "composite"
   steps:
     - shell: bash
+      env:
+        EXPECTED_VERSION: ${{ inputs.expected_version }}
       run: |
         FILE_VERSION="$(jq -r '.version' info.json)"
-        if [ "$FILE_VERSION" != "${{ inputs.expected_version }}" ]; then
-          echo "❌ Error: Version mismatch. File: $FILE_VERSION, Expected: ${{ inputs.expected_version }}"
+        if [ "$FILE_VERSION" != "$EXPECTED_VERSION" ]; then
+          echo "❌ Error: Version mismatch. File: $FILE_VERSION, Expected: $EXPECTED_VERSION"
           exit 1
         fi
         echo "✅ Version consistency verified: $FILE_VERSION"

@@ -16,7 +16,9 @@ jobs:
     if: startsWith(github.head_ref, 'release-v')
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Required for git tag push
+      contents: write      # Required for git tag push
+
+    environment: release   # Links to MOD Portal API key in protected environment
 
     steps:
     - name: Checkout code
@@ -26,30 +28,25 @@ jobs:
 
     - name: Extract version from branch name
       id: version
+      env:
+        BRANCH_NAME: ${{ github.head_ref }}
       run: |
-        BRANCH_NAME="${{ github.head_ref }}"
-        VERSION="${BRANCH_NAME#release-v}"
+        VERSION=${BRANCH_NAME#release-v}
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "tag=v$VERSION" >> $GITHUB_OUTPUT
 
     - name: Validate version format
-      run: |
-        if ! echo "${{ steps.version.outputs.version }}" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$'; then
-          echo "❌ Error: Version must be in format x.y.z (e.g., 1.0.0)"
-          exit 1
-        fi
+      uses: ./.github/actions/validate-version-format
+      with:
+        version: ${{ steps.version.outputs.version }}
 
     - name: Verify version consistency
       uses: ./.github/actions/verify-version-consistency
       with:
         expected_version: ${{ steps.version.outputs.version }}
 
-    - name: Ensure tag created properly
+    - name: Check if git tag already exists
       run: |
-        # Check if tag already exists
-        # - If it exists and this is NOT a synchronize event: ERROR (tag created outside workflow)
-        # - If it exists and this IS a synchronize event: OK (will be updated later)
-        # - If it doesn't exist: OK (will be created by preparation workflow)
         if git tag | grep -q "^${{ steps.version.outputs.tag }}$"; then
           if [ "${{ github.event.action }}" != "synchronize" ]; then
             echo "❌ Error: Git tag ${{ steps.version.outputs.tag }} already exists"
@@ -60,16 +57,38 @@ jobs:
           fi
         fi
 
-    - name: Validate MOD_PORTAL_API_KEY
+    - name: Check for misconfigured MOD_PORTAL_API_KEY
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # Check if MOD_PORTAL_API_KEY exists at repository level (incorrect location)
+        if gh api repos/${{ github.repository }}/actions/secrets --jq '.secrets[].name' | grep -q "^MOD_PORTAL_API_KEY$"; then
+          echo "❌ Error: MOD_PORTAL_API_KEY is misconfigured"
+          echo ""
+          echo "The secret is defined at repository level, but it should be in the 'release' environment."
+          echo ""
+          echo "To fix this:"
+          echo "1. Go to https://github.com/${{ github.repository }}/settings/secrets/actions"
+          echo "2. Delete the repository-level MOD_PORTAL_API_KEY secret"
+          echo "3. Go to https://github.com/${{ github.repository }}/settings/environments"
+          echo "4. Click on 'release' environment and add MOD_PORTAL_API_KEY there"
+          echo ""
+          echo "This ensures the secret is only accessible to release workflows with proper protection."
+          exit 1
+        fi
+
+    - name: Validate MOD_PORTAL_API_KEY exists
       run: |
         if [ -z "${{ secrets.MOD_PORTAL_API_KEY }}" ]; then
-          echo "❌ Error: MOD_PORTAL_API_KEY secret is not configured"
+          echo "❌ Error: MOD_PORTAL_API_KEY secret is not configured in release environment"
           echo ""
           echo "To fix this:"
           echo "1. Generate an API key at https://mods.factorio.com/profile"
-          echo "2. Go to repository Settings -> Secrets and variables -> Actions"
-          echo "3. Add new secret: MOD_PORTAL_API_KEY with your API key"
+          echo "2. Go to https://github.com/${{ github.repository }}/settings/environments"
+          echo "3. Click on 'release' environment (create if it doesn't exist)"
+          echo "4. Add environment secret: MOD_PORTAL_API_KEY with your API key"
           echo ""
+          echo "Note: The secret must be in the 'release' environment for proper security."
           echo "This PR cannot be merged until the secret is configured."
           exit 1
         fi
@@ -82,15 +101,20 @@ jobs:
         fi
 
     - name: Set git user for tag update
-      if: github.event.action == 'synchronize' # When new commits are pushed to PR
+      if: github.event.action == 'synchronize'  # When new commits are pushed to PR
       uses: git-actions/set-user@v1
 
     - name: Update release tag to latest commit
-      if: github.event.action == 'synchronize' # When new commits are pushed to PR
+      if: github.event.action == 'synchronize'  # When new commits are pushed to PR
       run: |
         echo "Updating tag v${{ steps.version.outputs.version }} to latest commit"
+
+        # Force update the tag to current HEAD
         git tag -fa "v${{ steps.version.outputs.version }}" -m "Release v${{ steps.version.outputs.version }}"
+
+        # Force push the updated tag
         git push origin "v${{ steps.version.outputs.version }}" --force
+
         echo "🏷️ Tag v${{ steps.version.outputs.version }} updated to commit $(git rev-parse --short HEAD)"
 
     - name: Release validation summary
@@ -98,9 +122,11 @@ jobs:
         echo "✅ Release validation passed for v${{ steps.version.outputs.version }}"
         echo "- Version format is valid"
         echo "- Version consistency verified"
-        echo "- Git tag exists at correct commit"
+        if [ "${{ github.event.action }}" == "synchronize" ]; then
+          echo "- Git tag updated to latest commit"
+        else
+          echo "- Git tag validated"
+        fi
         echo "- MOD_PORTAL_API_KEY is configured"
         echo "- changelog.txt is properly formatted"
-        if [ "${{ github.event.action }}" == "synchronize" ]; then
-          echo "- Tag updated to latest commit"
-        fi
+        echo "- Quality checks handled by CI workflow"
