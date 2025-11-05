@@ -19,10 +19,10 @@ runs:
   steps:
     - shell: bash
       env:
+        MOD_NAME: ${{ inputs.mod_name }}
+        ZIP_NAME: ${{ inputs.zip_name }}
         MOD_PORTAL_API_KEY: ${{ inputs.api_key }}
       run: |
-        MOD_NAME="${{ inputs.mod_name }}"
-        ZIP_NAME="${{ inputs.zip_name }}"
         INIT_UPLOAD_URL="https://mods.factorio.com/api/v2/mods/releases/init_upload"
 
         # Get upload URL
