@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.3.0
+Date: 2026-06-04
+  Changes:
+    - Support for Angel's Refining (thermal water) and Angel's Petrochemical Processing (natural gas)
+---------------------------------------------------------------------------------------------------
 Version: 0.2.0
 Date: 2025-10-04
   Changes:
