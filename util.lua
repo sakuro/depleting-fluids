@@ -16,8 +16,8 @@ local resourceFluids = {
   ["fluorine-vent"] = "fluorine",
   ["sulfuric-acid-geyser"] = "sulfuric-acid",
   ["adamo-carbon-natural-gas"] = "adamo-carbon-natural-gas",
-  ["angels-fissure"] = "thermal-water",
-  ["angels-natural-gas"] = "gas-natural-1",
+  ["angels-fissure"] = "angels-thermal-water",
+  ["angels-natural-gas"] = "angels-gas-natural-1",
   ["bob-ground-water"] = "water",
   ["bob-lithia-water"] = "bob-lithia-water"
 }
