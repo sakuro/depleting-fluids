@@ -11,6 +11,8 @@ This MOD makes some infinite fluid resouces finite.
 - Factorio 2.0+ (Crude oil)
 - Space Age (Sulfuric acid geyser and fluorine vent)
 - [James Oily Extravaganza](https://mods.factorio.com/mod/James-Oil-Processing) (Natural gas)
+- [Angel's Refining](https://mods.factorio.com/mod/angelsrefining) (Thermal water)
+- [Angel's Petrochemical Processing](https://mods.factorio.com/mod/angelspetrochem) (Natural gas)
 - [Bob's Ores](https://mods.factorio.com/mod/bobores) (Ground water and Lithia water)
 
 ## Warning

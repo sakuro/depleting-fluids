@@ -1,6 +1,6 @@
 {
   "name": "depleting-fluids",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "factorio_version": "2.0",
   "title": "Depleting Fluids",
   "author": "sakuro",
@@ -9,6 +9,8 @@
     "base >= 2.0",
     "? space-age >= 2.0",
     "? James-Oil-Processing >= 2.0.0",
+    "? angelsrefining >= 2.0.0",
+    "? angelspetrochem >= 2.0.0",
     "? bobores >= 2.0.0",
     "! Krastorio2",
     "! finite-oil"

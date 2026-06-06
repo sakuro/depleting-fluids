@@ -6,6 +6,8 @@ local modResources = {
   ["base"] = {"crude-oil"},
   ["space-age"] = {"fluorine-vent", "sulfuric-acid-geyser"},
   ["James-Oil-Processing"] = {"adamo-carbon-natural-gas"},
+  ["angelsrefining"] = {"angels-fissure"},
+  ["angelspetrochem"] = {"angels-natural-gas"},
   ["bobores"] = {"bob-ground-water", "bob-lithia-water"}
 }
 
@@ -14,6 +16,8 @@ local resourceFluids = {
   ["fluorine-vent"] = "fluorine",
   ["sulfuric-acid-geyser"] = "sulfuric-acid",
   ["adamo-carbon-natural-gas"] = "adamo-carbon-natural-gas",
+  ["angels-fissure"] = "angels-thermal-water",
+  ["angels-natural-gas"] = "angels-gas-natural-1",
   ["bob-ground-water"] = "water",
   ["bob-lithia-water"] = "bob-lithia-water"
 }
