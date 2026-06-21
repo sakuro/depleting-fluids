@@ -1,6 +1,5 @@
 ---------------------------------------------------------------------------------------------------
 Version: Unreleased
-Date: ????-??-??
   Changes:
     - Support for Angel's Refining (thermal water) and Angel's Petrochemical Processing (natural gas)
 ---------------------------------------------------------------------------------------------------
