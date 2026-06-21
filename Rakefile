@@ -5,7 +5,7 @@ require "rake/clean"
 
 mod_license = "default_mit"
 mod_category = "tweaks"
-mod_tags = %w[Mining Fluids]
+mod_tags = %w[mining fluids]
 
 info = JSON.parse(File.read("info.json"))
 mod_name = info["name"]
