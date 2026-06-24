@@ -72,7 +72,7 @@ util.makeResourceFinite = function(internalName)
         name = resourceFluids[internalName],
         amount_min = 5,
         amount_max = 5,
-        probability = 1
+        independent_probability = 1
       }
     }
   }
