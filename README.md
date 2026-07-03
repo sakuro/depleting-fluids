@@ -1,6 +1,6 @@
 # Depleting Fluids
 
-![https://mods.factorio.com/mod/depleting-fluids](https://img.shields.io/badge/dynamic/json.svg?label=Downloads&url=https%3A%2F%2Fmods.factorio.com%2Fapi%2Fmods%2Fdepleting-fluids&query=%24.downloads_count&colorB=%2343d463)
+[![Downloads](https://img.shields.io/badge/dynamic/json.svg?label=Downloads&url=https%3A%2F%2Fmods.factorio.com%2Fapi%2Fmods%2Fdepleting-fluids&query=%24.downloads_count)](https://mods.factorio.com/mod/depleting-fluids)
 
 ## Summary
 
