@@ -8,7 +8,8 @@ local modResources = {
   ["James-Oil-Processing"] = {"adamo-carbon-natural-gas"},
   ["angelsrefining"] = {"angels-fissure"},
   ["angelspetrochem"] = {"angels-natural-gas"},
-  ["bobores"] = {"bob-ground-water", "bob-lithia-water"}
+  ["bobores"] = {"bob-ground-water", "bob-lithia-water"},
+  ["factorioplus"] = {"natural-gas", "aquifer", "geothermal-vent"}
 }
 
 local resourceFluids = {
@@ -19,7 +20,10 @@ local resourceFluids = {
   ["angels-fissure"] = "angels-thermal-water",
   ["angels-natural-gas"] = "angels-gas-natural-1",
   ["bob-ground-water"] = "water",
-  ["bob-lithia-water"] = "bob-lithia-water"
+  ["bob-lithia-water"] = "bob-lithia-water",
+  ["natural-gas"] = "natural-gas",
+  ["aquifer"] = "water",
+  ["geothermal-vent"] = "steam"
 }
 
 local settingName = function(internalName)
