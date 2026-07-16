@@ -14,6 +14,7 @@ This MOD makes some infinite fluid resouces finite.
 - [Angel's Refining](https://mods.factorio.com/mod/angelsrefining) (Thermal water)
 - [Angel's Petrochemical Processing](https://mods.factorio.com/mod/angelspetrochem) (Natural gas)
 - [Bob's Ores](https://mods.factorio.com/mod/bobores) (Ground water and Lithia water)
+- [Factorio+](https://mods.factorio.com/mod/factorioplus) (Natural gas, Aquifer and Geothermal vent)
 
 ## Warning
 

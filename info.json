@@ -12,6 +12,7 @@
     "? angelsrefining >= 2.0.0",
     "? angelspetrochem >= 2.0.0",
     "? bobores >= 2.0.0",
+    "? factorioplus >= 2.7.7",
     "! Krastorio2",
     "! finite-oil"
   ]
