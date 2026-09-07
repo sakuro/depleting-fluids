@@ -1,4 +1,4 @@
-local util = require("util")
+local util = require("prototypes.util")
 
 util.forEachResourceInSupportedMods(function(_mod, resource)
   if util.isResourceFinite(resource) then
