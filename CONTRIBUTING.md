@@ -16,6 +16,20 @@ Then `mise run test` runs the unit tests and `mise tasks ls -l` lists this proje
 - Re-run `mise install` after pulling changes to `mise.toml`; Renovate bumps tool versions regularly.
 - Building Lua from source needs the readline development headers (`libreadline-dev` on Debian/Ubuntu, `readline` via Homebrew on macOS).
 
+## Adding support for a MOD
+
+To make another MOD's fluid resource finite:
+
+1. **`info.json`** — add an optional dependency: `"? <mod> >= <version>"`.
+2. **`lib/resources.lua`**
+   - `byMod`: add `["<mod>"] = {"<resource>", ...}` — the resource *entity* names as they appear in `data.raw.resource`.
+   - `fluids`: add `["<resource>"] = "<fluid>"` for each new resource — the fluid its mining should yield.
+3. **`locale/en/depleting-fluids.cfg`** and **`locale/ja/depleting-fluids.cfg`** — add a `depleting-fluids-finite-<resource>` line under both `[mod-settings-name]` and `[mod-settings-description]`.
+4. Add an `Unreleased` changelog entry (new MOD support is user-visible).
+5. Run `mise run test` — the `byMod` -> `fluids` consistency spec fails if a `fluids` entry is missing.
+
+The resource name must match the MOD's actual `resource` prototype; `prototypes/finite.lua` silently no-ops when the prototype is absent, so a wrong name does nothing.
+
 ## Pull requests
 
 When opening a pull request:
