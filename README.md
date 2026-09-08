@@ -15,6 +15,7 @@ This MOD makes some infinite fluid resouces finite.
 - [Angel's Petrochemical Processing](https://mods.factorio.com/mod/angelspetrochem) (Natural gas)
 - [Bob's Ores](https://mods.factorio.com/mod/bobores) (Ground water and Lithia water)
 - [Factorio+](https://mods.factorio.com/mod/factorioplus) (Natural gas, Aquifer and Geothermal vent)
+- [Cargo Ships](https://mods.factorio.com/mod/cargo-ships) (Offshore oil, follows the Crude oil setting automatically)
 
 ## Warning
 
