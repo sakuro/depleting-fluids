@@ -23,6 +23,14 @@ Root-level Lua files are limited to the Factorio stage entry points (`settings.l
 - `prototypes/` - declarative prototype definitions (`data:extend({...})`), used from both the settings stage (setting prototypes) and the data stage (item/recipe/entity/etc. prototypes)
 - `lib/` - runtime code: control-stage logic and helpers shared across stages
 
+## Tests
+
+`spec/` holds busted unit tests; run them with `mise run test`.
+
+Cover pure logic only — code that does not touch the Factorio runtime (`game`, `script`, `rendering`, `defines`, `data`, prototype globals). Keep such logic in `lib/` as functions over plain values so a spec can `require` it directly (e.g. `require("lib.foo")`). Runtime-integrated behavior is out of scope for these tests.
+
+`spec/helper.lua` runs once before any spec loads — the place for setup that must precede the first `require` of the code under test (e.g. Factorio global stubs). Keep it idempotent.
+
 ## Release
 
 Releases are handled by GitHub Actions workflows. Do not run `mise run release:*` tasks manually.
@@ -43,7 +51,7 @@ Do not create a section for the next release version directly — version bumpin
 # Document Map
 
 - README.md: Project overview
-- CONTRIBUTING.md: Pull request guidelines
+- CONTRIBUTING.md: Development setup and pull request guidelines
 
 # External References
 
