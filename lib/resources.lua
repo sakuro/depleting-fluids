@@ -10,13 +10,13 @@ local SETTING_PREFIX = "depleting-fluids-finite-"
 -- have an entry in `fluids` below, or makeResourceFinite would build a mining
 -- result with no fluid name.
 resources.byMod = {
-  ["base"] = {"crude-oil"},
-  ["space-age"] = {"fluorine-vent", "sulfuric-acid-geyser"},
-  ["James-Oil-Processing"] = {"adamo-carbon-natural-gas"},
-  ["angelsrefining"] = {"angels-fissure"},
-  ["angelspetrochem"] = {"angels-natural-gas"},
-  ["bobores"] = {"bob-ground-water", "bob-lithia-water"},
-  ["factorioplus"] = {"natural-gas", "aquifer", "geothermal-vent"},
+  ["base"] = { "crude-oil" },
+  ["space-age"] = { "fluorine-vent", "sulfuric-acid-geyser" },
+  ["James-Oil-Processing"] = { "adamo-carbon-natural-gas" },
+  ["angelsrefining"] = { "angels-fissure" },
+  ["angelspetrochem"] = { "angels-natural-gas" },
+  ["bobores"] = { "bob-ground-water", "bob-lithia-water" },
+  ["factorioplus"] = { "natural-gas", "aquifer", "geothermal-vent" },
 }
 
 -- Resource name -> the fluid its mining yields once the resource is finite.
@@ -64,8 +64,8 @@ function resources.createFiniteResourceSetting(resourceName)
     setting_type = "startup",
     default_value = true,
     order = "c",
-    localised_name = {"mod-settings-name." .. name},
-    localised_description = {"mod-settings-description." .. name},
+    localised_name = { "mod-settings-name." .. name },
+    localised_description = { "mod-settings-description." .. name },
   }
 end
 

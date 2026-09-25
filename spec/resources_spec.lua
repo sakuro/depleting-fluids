@@ -24,30 +24,26 @@ describe("resources.createFiniteResourceSetting", function()
   end)
 
   it("points its localised strings at the setting name", function()
-    assert.are.same({"mod-settings-name.depleting-fluids-finite-fluorine-vent"}, setting.localised_name)
-    assert.are.same(
-      {"mod-settings-description.depleting-fluids-finite-fluorine-vent"},
-      setting.localised_description
-    )
+    assert.are.same({ "mod-settings-name.depleting-fluids-finite-fluorine-vent" }, setting.localised_name)
+    assert.are.same({ "mod-settings-description.depleting-fluids-finite-fluorine-vent" }, setting.localised_description)
   end)
 end)
 
 describe("resources.eachResource", function()
   it("visits every resource of each installed supporting MOD", function()
     local seen = {}
-    resources.eachResource({base = "1.0.0", bobores = "2.0.0"}, function(mod, resource)
+    resources.eachResource({ base = "1.0.0", bobores = "2.0.0" }, function(mod, resource)
       seen[#seen + 1] = mod .. "/" .. resource
     end)
     table.sort(seen)
-    assert.are.same(
-      {"base/crude-oil", "bobores/bob-ground-water", "bobores/bob-lithia-water"},
-      seen
-    )
+    assert.are.same({ "base/crude-oil", "bobores/bob-ground-water", "bobores/bob-lithia-water" }, seen)
   end)
 
   it("skips MODs that are not installed", function()
     local called = false
-    resources.eachResource({}, function() called = true end)
+    resources.eachResource({}, function()
+      called = true
+    end)
     assert.is_false(called)
   end)
 end)
@@ -66,10 +62,7 @@ describe("the resource maps", function()
   it("give every resource in byMod a fluid", function()
     for mod, names in pairs(resources.byMod) do
       for _, resource in ipairs(names) do
-        assert(
-          resources.fluidFor(resource) ~= nil,
-          ("%s -> %s has no entry in resources.fluids"):format(mod, resource)
-        )
+        assert(resources.fluidFor(resource) ~= nil, ("%s -> %s has no entry in resources.fluids"):format(mod, resource))
       end
     end
   end)
