@@ -4,14 +4,19 @@ local resources = require("lib.resources")
 
 local finite = {}
 
---- Whether the startup setting for resourceName is enabled.
+--- True when the startup setting for resourceName is enabled.
+---@param resourceName string
+---@return boolean
 function finite.enabled(resourceName)
   return settings.startup[resources.settingName(resourceName)].value
 end
 
 --- Rewrites data.raw.resource[resourceName] into a finite resource that mines
---- its mapped fluid. No-op when the prototype is absent (its MOD may have
---- disabled the resource through its own settings).
+--- its mapped fluid.
+---
+--- No-op when the prototype is absent: its MOD may have disabled the resource
+--- through its own settings.
+---@param resourceName string
 function finite.apply(resourceName)
   local resource = data.raw.resource[resourceName]
   if not resource then

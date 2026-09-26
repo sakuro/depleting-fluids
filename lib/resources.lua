@@ -34,12 +34,17 @@ resources.fluids = {
   ["geothermal-vent"] = "steam",
 }
 
+--- Returns the name of the startup setting that toggles finiteness for resourceName.
+---@param resourceName string
+---@return string
 function resources.settingName(resourceName)
   return SETTING_PREFIX .. resourceName
 end
 
 --- Calls func(mod, resource) for every resource of every supporting MOD present
---- in installedMods (Factorio's `mods` global: a {name = version} table).
+--- in installedMods.
+---@param installedMods table<string, string>  Factorio's `mods` global, name -> version
+---@param func fun(mod: string, resource: string)
 function resources.eachResource(installedMods, func)
   for mod, names in pairs(resources.byMod) do
     if installedMods[mod] then
@@ -50,12 +55,16 @@ function resources.eachResource(installedMods, func)
   end
 end
 
---- The fluid a resource yields when finite, or nil if unmapped.
+--- Returns the fluid a resource yields once it is finite.
+---@param resourceName string
+---@return string|nil  nil when the resource is not mapped in `resources.fluids`
 function resources.fluidFor(resourceName)
   return resources.fluids[resourceName]
 end
 
---- bool-setting prototype that toggles finiteness for resourceName.
+--- Builds the startup bool-setting prototype that toggles finiteness for resourceName.
+---@param resourceName string
+---@return table  a bool-setting prototype for `data:extend`
 function resources.createFiniteResourceSetting(resourceName)
   local name = resources.settingName(resourceName)
   return {
