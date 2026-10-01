@@ -4,7 +4,7 @@
 
 ## Summary
 
-This MOD makes some infinite fluid resouces finite.
+This MOD makes some infinite fluid resources finite.
 
 ### Supported resources
 
