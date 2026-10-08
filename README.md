@@ -21,8 +21,7 @@ This MOD makes some infinite fluid resources finite.
 
 Resource parameters and mining speed of pumpjacks may change in future versions.
 
-MODs that make resources infinite are _not_ marked as conflicts, but using such MODs with this MOD
-may cause unexpected result.
+MODs that make resources infinite are _not_ marked as conflicts, but using such MODs with this MOD may cause unexpected result.
 
 ## Related MODs
 
